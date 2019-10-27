@@ -14,13 +14,9 @@ const App = () => {
     ]
   })
 
-  const [otherValue, setOtherValue] = useState({
-    otherValue: "Value"
-  })
+  const [otherValue, setOtherValue] = useState("Value")
 
-  const [showPersons, setShowPersons] = useState({
-    showPersons: false
-  })
+  const [showPersons, setShowPersons] = useState(false)
 
   const style = {
     backgroundColor: 'white',
@@ -52,12 +48,12 @@ const App = () => {
 
   const togglePersonsHandler = () => {
     // showPersons.showPersons ? setShowPersons({ showPersons: false }) : setShowPersons({ showPersons: true })
-    const doesShow = showPersons.showPersons
-    setShowPersons({ showPersons: !doesShow })
+    const doesShow = showPersons
+    setShowPersons(!doesShow)
   }
 
   let persons = null //more efficient than 'sth ? true : false'
-  if (showPersons.showPersons) {
+  if (showPersons) {
     persons = (
       <div>
         {
