@@ -29,7 +29,6 @@ const App = () => {
       <UserOutput nickName={nickName.username} />
       <UserOutput nickName="other nick" />
       <UserInput nickName={nickName.username} changed={userNameHandler} />
-
     </div>
   )
 }
