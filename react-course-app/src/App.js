@@ -8,9 +8,9 @@ const App = () => {
 
   const [personsState, setPersonsState] = useState({
     persons: [
-      { name: "Patryk", age: 21 },
-      { name: "Manu", age: 21 },
-      { name: "Martyna", age: 29 }
+      { id: 1, name: "Patryk", age: 21 },
+      { id: 2, name: "Manu", age: 21 },
+      { id: 3, name: "Martyna", age: 29 }
     ]
   })
 
@@ -18,36 +18,39 @@ const App = () => {
 
   const [showPersons, setShowPersons] = useState(false)
 
-  const style = {
-    backgroundColor: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
-  }
 
-  const switchNameHander = (newName) => {
+  const nameChangedHendler = (event, id) => {
+
+    const personIndex = personsState.persons.findIndex(p => {
+      return p.id === id
+    })
+
+    //create a copy of a person with specific index
+    const person = {
+      ...personsState.persons[personIndex]
+    }
+
+    person.name = event.target.value
+
+    //create a copy of persons array to change one person
+    const persons = [...personsState.persons]
+    persons[personIndex] = person
+
+    //assign new values to the persons array :)
     setPersonsState({
-      persons: [
-        { name: newName, age: 21 },
-        { name: "Manu", age: 41 },
-        { name: "Martyna", age: 21 }
-      ]
+      persons: persons
     })
   }
 
-  const nameChangedHendler = (event) => {
-    setPersonsState({
-      persons: [
-        { name: "Patryk", age: 21 },
-        { name: event.target.value, age: 29 },
-        { name: "Martyna", age: 21 }
-      ]
-    })
+  const deletePersonHandler = (personIndex) => {
+    // const persons = personsState.persons.slice()
+    // better to make a copy! 
+    let persons = [...personsState.persons]
+    persons.splice(personIndex, 1)
+    setPersonsState({ persons: persons })
   }
 
   const togglePersonsHandler = () => {
-    // showPersons.showPersons ? setShowPersons({ showPersons: false }) : setShowPersons({ showPersons: true })
     const doesShow = showPersons
     setShowPersons(!doesShow)
   }
@@ -57,16 +60,27 @@ const App = () => {
     persons = (
       <div>
         {
-          personsState.persons.map(person => {
+          personsState.persons.map((person, index) => {
             return (
               <Person
+                click={deletePersonHandler.bind(this, index)}
                 name={person.name}
-                age={person.age} />
+                age={person.age}
+                key={person.id}
+                changed={(e) => nameChangedHendler(e, person.id)} />
             )
           })
         }
       </div>
     )
+  }
+
+  const style = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
   }
 
   return (
