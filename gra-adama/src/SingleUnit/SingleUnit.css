@@ -1,0 +1,16 @@
+.SingleUnit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border: 2px black solid;
+    margin: 20px;
+    width: 150px;
+    background-color: indianred;
+}
+.ButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 20px 0;
+}

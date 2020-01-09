@@ -16,7 +16,7 @@ const App = () => {
 
   const [otherValue, setOtherValue] = useState("Value")
 
-  const [showPersons, setShowPersons] = useState(false)
+  const [showPersons, setShowPersons] = useState(true)
 
 
   const nameChangedHendler = (event, id) => {
@@ -55,6 +55,15 @@ const App = () => {
     setShowPersons(!doesShow)
   }
 
+  const style = {
+    backgroundColor: 'green',
+    color: 'white',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
+  }
+
   let persons = null //more efficient than 'sth ? true : false'
   if (showPersons) {
     persons = (
@@ -73,20 +82,22 @@ const App = () => {
         }
       </div>
     )
+    style.backgroundColor = 'red'
   }
 
-  const style = {
-    backgroundColor: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
+  const classes = []
+
+  if (personsState.persons.length < 3) {
+    classes.push('red')
+  }
+  if (personsState.persons.length < 2) {
+    classes.push('bold')
   }
 
   return (
     <div className="App">
       <h1>Hi, i'm a React app!</h1>
-      <p>It works!</p>
+      <p className={classes.join(' ')}>It works!</p>
       {/* <Person></Person> */}
       <button
         onClick={togglePersonsHandler}
