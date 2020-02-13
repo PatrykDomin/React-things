@@ -1,10 +1,27 @@
 import React, { useState } from "react";
 import "./App.css";
 import Person from "./Person/Person";
+import styled from "styled-components";
 
 const App = () => {
-  //use multiple useState !
+  const StyledButton = styled.button`
+    background-color: ${p => (p.shown ? "red" : "green")};
+    color: white;
+    font: inherit;
+    border: 0;
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+    backface-visibility: hidden;
 
+    /* & -> this component */
+    &:hover {
+      background-color: ${p => (p.shown ? "salmon" : "lightgreen")};
+      color: black;
+    }
+  `;
+
+  //use multiple useState !
   const [personsState, setPersonsState] = useState({
     persons: [
       { id: 1, name: "Patryk", age: 21 },
@@ -50,15 +67,6 @@ const App = () => {
     setShowPersons(!doesShow);
   };
 
-  const style = {
-    backgroundColor: "green",
-    color: "white",
-    font: "inherit",
-    border: "1px solid blue",
-    padding: "8px",
-    cursor: "pointer"
-  };
-
   let persons = null; //more efficient than 'sth ? true : false'
   if (showPersons) {
     persons = (
@@ -76,10 +84,9 @@ const App = () => {
         })}
       </div>
     );
-    style.backgroundColor = "red";
   }
 
-  const classes = [];
+  let classes = [];
 
   if (personsState.persons.length < 3) {
     classes.push("red");
@@ -89,17 +96,21 @@ const App = () => {
   }
 
   return (
+    // <StyleRoot>
     <div className="App">
       <h1>Hi, i'm a React app!</h1>
       <p className={classes.join(" ")}>It works!</p>
       {/* <Person></Person> */}
-      <button onClick={togglePersonsHandler} style={style}>
+      <StyledButton shown={showPersons} onClick={togglePersonsHandler}>
         Toggle Persons
-      </button>
+      </StyledButton>
       {/* Better use .bind than anonymous function */}
       {persons}
     </div>
+    // </StyledRoot>
   );
 };
 
+//extra export
+// export default Radium(App);
 export default App;
