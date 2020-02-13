@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import './App.css'
-import Person from './Preson/Person'
+import React, { useState } from "react";
+import "./App.css";
+import Person from "./Person/Person";
 
 const App = () => {
-
   //use multiple useState !
 
   const [personsState, setPersonsState] = useState({
@@ -12,100 +11,95 @@ const App = () => {
       { id: 2, name: "Manu", age: 21 },
       { id: 3, name: "Martyna", age: 29 }
     ]
-  })
+  });
 
-  const [otherValue, setOtherValue] = useState("Value")
+  const [showPersons, setShowPersons] = useState(true);
 
-  const [showPersons, setShowPersons] = useState(true)
-
-
-  const nameChangedHendler = (event, id) => {
-
+  const nameChangedHandler = (event, id) => {
     const personIndex = personsState.persons.findIndex(p => {
-      return p.id === id
-    })
+      return p.id === id;
+    });
 
     //create a copy of a person with specific index
     const person = {
       ...personsState.persons[personIndex]
-    }
+    };
 
-    person.name = event.target.value
+    person.name = event.target.value;
 
     //create a copy of persons array to change one person
-    const persons = [...personsState.persons]
-    persons[personIndex] = person
+    const persons = [...personsState.persons];
+    persons[personIndex] = person;
 
     //assign new values to the persons array :)
     setPersonsState({
       persons: persons
-    })
-  }
+    });
+  };
 
-  const deletePersonHandler = (personIndex) => {
+  const deletePersonHandler = personIndex => {
     // const persons = personsState.persons.slice()
-    // better to make a copy! 
-    let persons = [...personsState.persons]
-    persons.splice(personIndex, 1)
-    setPersonsState({ persons: persons })
-  }
+    // better to make a copy!
+    let persons = [...personsState.persons];
+    persons.splice(personIndex, 1);
+    setPersonsState({ persons: persons });
+  };
 
   const togglePersonsHandler = () => {
-    const doesShow = showPersons
-    setShowPersons(!doesShow)
-  }
+    const doesShow = showPersons;
+    setShowPersons(!doesShow);
+  };
 
   const style = {
-    backgroundColor: 'green',
-    color: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
-  }
+    backgroundColor: "green",
+    color: "white",
+    font: "inherit",
+    border: "1px solid blue",
+    padding: "8px",
+    cursor: "pointer"
+  };
 
-  let persons = null //more efficient than 'sth ? true : false'
+  let persons = null; //more efficient than 'sth ? true : false'
   if (showPersons) {
     persons = (
       <div>
-        {
-          personsState.persons.map((person, index) => {
-            return (
-              <Person
-                click={deletePersonHandler.bind(this, index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={(e) => nameChangedHendler(e, person.id)} />
-            )
-          })
-        }
+        {personsState.persons.map((person, index) => {
+          return (
+            <Person
+              click={deletePersonHandler.bind(this, index)}
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={e => nameChangedHandler(e, person.id)}
+            />
+          );
+        })}
       </div>
-    )
-    style.backgroundColor = 'red'
+    );
+    style.backgroundColor = "red";
   }
 
-  const classes = []
+  const classes = [];
 
   if (personsState.persons.length < 3) {
-    classes.push('red')
+    classes.push("red");
   }
   if (personsState.persons.length < 2) {
-    classes.push('bold')
+    classes.push("bold");
   }
 
   return (
     <div className="App">
       <h1>Hi, i'm a React app!</h1>
-      <p className={classes.join(' ')}>It works!</p>
+      <p className={classes.join(" ")}>It works!</p>
       {/* <Person></Person> */}
-      <button
-        onClick={togglePersonsHandler}
-        style={style}>Toggle Persons</button>
-      {/* Better use .bind than annonymous function */}
+      <button onClick={togglePersonsHandler} style={style}>
+        Toggle Persons
+      </button>
+      {/* Better use .bind than anonymous function */}
       {persons}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
