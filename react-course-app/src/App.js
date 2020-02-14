@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import classes from "./App.css";
 import Person from "./Person/Person";
 import styled from "styled-components";
 
@@ -86,20 +86,21 @@ const App = () => {
     );
   }
 
-  let classes = [];
+  let assignedClasses = [];
 
   if (personsState.persons.length < 3) {
-    classes.push("red");
+    assignedClasses.push(classes.red);
   }
   if (personsState.persons.length < 2) {
-    classes.push("bold");
+    assignedClasses.push(classes.bold);
   }
 
   return (
     // <StyleRoot>
-    <div className="App">
+    //adding CSS Modules classes.App
+    <div className={classes.App}>
       <h1>Hi, i'm a React app!</h1>
-      <p className={classes.join(" ")}>It works!</p>
+      <p className={assignedClasses.join(" ")}>It works!</p>
       {/* <Person></Person> */}
       <StyledButton shown={showPersons} onClick={togglePersonsHandler}>
         Toggle Persons
