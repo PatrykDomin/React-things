@@ -1,26 +1,8 @@
 import React, { useState } from "react";
-import classes from "./App.css";
-import Person from "./Person/Person";
-import styled from "styled-components";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
-const App = () => {
-  const StyledButton = styled.button`
-    background-color: ${p => (p.shown ? "red" : "green")};
-    color: white;
-    font: inherit;
-    border: 0;
-    border-radius: 5px;
-    padding: 8px;
-    cursor: pointer;
-    backface-visibility: hidden;
-
-    /* & -> this component */
-    &:hover {
-      background-color: ${p => (p.shown ? "salmon" : "lightgreen")};
-      color: black;
-    }
-  `;
-
+const App = props => {
   //use multiple useState !
   const [personsState, setPersonsState] = useState({
     persons: [
@@ -70,42 +52,25 @@ const App = () => {
   let persons = null; //more efficient than 'sth ? true : false'
   if (showPersons) {
     persons = (
-      <div>
-        {personsState.persons.map((person, index) => {
-          return (
-            <Person
-              click={deletePersonHandler.bind(this, index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={e => nameChangedHandler(e, person.id)}
-            />
-          );
-        })}
-      </div>
+      <Persons
+        persons={personsState.persons}
+        clicked={deletePersonHandler}
+        changed={nameChangedHandler}
+      />
     );
-  }
-
-  let assignedClasses = [];
-
-  if (personsState.persons.length < 3) {
-    assignedClasses.push(classes.red);
-  }
-  if (personsState.persons.length < 2) {
-    assignedClasses.push(classes.bold);
   }
 
   return (
     // <StyleRoot>
     //adding CSS Modules classes.App
-    <div className={classes.App}>
-      <h1>Hi, i'm a React app!</h1>
-      <p className={assignedClasses.join(" ")}>It works!</p>
-      {/* <Person></Person> */}
-      <StyledButton shown={showPersons} onClick={togglePersonsHandler}>
-        Toggle Persons
-      </StyledButton>
-      {/* Better use .bind than anonymous function */}
+
+    <div>
+      <Cockpit
+        title={props.appTitle}
+        persons={personsState.persons}
+        show={showPersons}
+        clicked={togglePersonsHandler}
+      />
       {persons}
     </div>
     // </StyledRoot>

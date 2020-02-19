@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-const person = props => {
+const Person = props => {
   return (
     //<div className="Person" style={style}>
     <StyledDiv>
@@ -31,4 +31,4 @@ const person = props => {
 };
 
 // export default Radium(person);
-export default person;
+export default Person;
