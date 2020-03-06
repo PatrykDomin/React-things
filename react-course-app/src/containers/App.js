@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+import withClass from "../hoc/WithClass";
 
 const App = props => {
   //use multiple useState !
@@ -11,8 +13,9 @@ const App = props => {
       { id: 3, name: "Martyna", age: 29 }
     ]
   });
-
   const [showPersons, setShowPersons] = useState(true);
+  const [changeCounter, setChangeCounter] = useState(0);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const nameChangedHandler = (event, id) => {
     const personIndex = personsState.persons.findIndex(p => {
@@ -34,6 +37,7 @@ const App = props => {
     setPersonsState({
       persons: persons
     });
+    setChangeCounter(changeCounter + 1);
   };
 
   const deletePersonHandler = personIndex => {
@@ -49,6 +53,10 @@ const App = props => {
     setShowPersons(!doesShow);
   };
 
+  const loginHandler = () => {
+    setAuthenticated(true);
+  };
+
   let persons = null; //more efficient than 'sth ? true : false'
   if (showPersons) {
     persons = (
@@ -56,6 +64,7 @@ const App = props => {
         persons={personsState.persons}
         clicked={deletePersonHandler}
         changed={nameChangedHandler}
+        isAuthenticated={authenticated}
       />
     );
   }
@@ -63,20 +72,24 @@ const App = props => {
   return (
     // <StyleRoot>
     //adding CSS Modules classes.App
+    // <WithClass classes={classes.App}>
 
-    <div>
+    <Fragment>
       <Cockpit
         title={props.appTitle}
-        persons={personsState.persons}
+        personsLength={personsState.persons.length}
         show={showPersons}
         clicked={togglePersonsHandler}
+        login={loginHandler}
       />
       {persons}
-    </div>
+    </Fragment>
+
+    // </WithClass>
     // </StyledRoot>
   );
 };
 
 //extra export
 // export default Radium(App);
-export default App;
+export default withClass(App, classes.App);

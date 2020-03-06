@@ -11,6 +11,7 @@ const Persons = props =>
         age={person.age}
         key={person.id}
         changed={e => props.changed(e, person.id)}
+        isAuth={props.isAuthenticated}
       />
     );
   });

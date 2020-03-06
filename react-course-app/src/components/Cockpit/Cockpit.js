@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import classes from "./Cockpit.css";
 
@@ -11,11 +11,12 @@ const StyledButton = styled.button`
   padding: 8px;
   cursor: pointer;
   backface-visibility: hidden;
-  transition: background-color 0.3s ease-in-out;
+  /* transition: background-color 0.3s ease-in-out; -> works as well (could use animation as underneath) */
   /* & -> this component */
   &:hover {
     background-color: ${p => (p.shown ? "salmon" : "lightgreen")};
-    animation: buttonAnimation 0.3s ease-in-out;
+    animation: buttonAnimation 0.3s ease-in-out,
+      background-color 0.3s ease-in-out;
     color: black;
   }
 
@@ -30,17 +31,19 @@ const StyledButton = styled.button`
 `;
 
 const Cockpit = props => {
-  //only on 1st render and unmount
-  useEffect(() => {
-    console.log("[Cockpit.js]  useEffect");
-    //http request
-    const timer = setTimeout(() => {
-      alert("timeout");
-    }, 1000);
+  const toggleButtonRef = useRef(null);
 
+  //only on (and after) 1st render and unmount
+  useEffect(() => {
+    //http request
+    // const timer = setTimeout(() => {
+    //   alert("timeout");
+    // }, 1000);
+    console.log("[Cockpit.js]  useEffect");
+    toggleButtonRef.current.focus();
     //it runs BEFORE the main useEffect func runs, but AFTER the (firs) render cycle
     return () => {
-      clearTimeout(timer);
+      //clearTimeout(timer);
       console.log("[cockpit.js] cleanup");
     };
   }, []);
@@ -57,10 +60,10 @@ const Cockpit = props => {
 
   let assignedClasses = [];
 
-  if (props.persons.length < 3) {
+  if (props.personsLength < 3) {
     assignedClasses.push(classes.red);
   }
-  if (props.persons.length < 2) {
+  if (props.personsLength < 2) {
     assignedClasses.push(classes.bold);
   }
 
@@ -69,11 +72,16 @@ const Cockpit = props => {
       <h1>{props.title}</h1>
       <p className={assignedClasses.join(" ")}>It works!</p>
       {/* <Person></Person> */}
-      <StyledButton shown={props.show} onClick={props.clicked}>
+      <StyledButton
+        ref={toggleButtonRef}
+        shown={props.show}
+        onClick={props.clicked}
+      >
         Toggle Persons
       </StyledButton>
+      <button onClick={props.login}>Log In</button>
     </div>
   );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);
