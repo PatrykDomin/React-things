@@ -2,8 +2,8 @@ import React from "react";
 import Person from "./Person/Person";
 
 //=> () return statement
-const Persons = props =>
-  props.persons.map((person, index) => {
+const Persons = props => {
+  return props.persons.map((person, index) => {
     return (
       <Person
         click={props.clicked.bind(this, index)}
@@ -15,5 +15,5 @@ const Persons = props =>
       />
     );
   });
-
+};
 export default Persons;

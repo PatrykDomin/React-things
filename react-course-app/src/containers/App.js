@@ -1,8 +1,9 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import withClass from "../hoc/WithClass";
+import AuthContext from "../context/auth-context";
 
 const App = props => {
   //use multiple useState !
@@ -14,6 +15,7 @@ const App = props => {
     ]
   });
   const [showPersons, setShowPersons] = useState(true);
+  const [showCockpit, setShowCockpit] = useState(true);
   const [changeCounter, setChangeCounter] = useState(0);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -73,16 +75,23 @@ const App = props => {
     // <StyleRoot>
     //adding CSS Modules classes.App
     // <WithClass classes={classes.App}>
-
     <Fragment>
-      <Cockpit
-        title={props.appTitle}
-        personsLength={personsState.persons.length}
-        show={showPersons}
-        clicked={togglePersonsHandler}
-        login={loginHandler}
-      />
-      {persons}
+      <button onClick={() => setShowCockpit(!showCockpit)}>
+        Remove Cockpit
+      </button>
+      <AuthContext.Provider
+        value={{ authenticated: authenticated, login: loginHandler }}
+      >
+        {showCockpit ? (
+          <Cockpit
+            title={props.appTitle}
+            personsLength={personsState.persons.length}
+            show={showPersons}
+            clicked={togglePersonsHandler}
+          />
+        ) : null}
+        {persons}
+      </AuthContext.Provider>
     </Fragment>
 
     // </WithClass>

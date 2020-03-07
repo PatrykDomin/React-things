@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import classes from "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 
 const StyledButton = styled.button`
   background-color: ${p => (p.shown ? "red" : "green")};
@@ -32,6 +33,8 @@ const StyledButton = styled.button`
 
 const Cockpit = props => {
   const toggleButtonRef = useRef(null);
+
+  const authContext = useContext(AuthContext);
 
   //only on (and after) 1st render and unmount
   useEffect(() => {
@@ -79,7 +82,7 @@ const Cockpit = props => {
       >
         Toggle Persons
       </StyledButton>
-      <button onClick={props.login}>Log In</button>
+      <button onClick={authContext.login}>Log In</button>
     </div>
   );
 };

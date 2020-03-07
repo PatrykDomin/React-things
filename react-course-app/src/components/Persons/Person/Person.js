@@ -1,9 +1,10 @@
-import React, { Fragment, useRef, useEffect } from "react";
+import React, { Fragment, useRef, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import classes from "./Person.css";
 //import styled from "styled-components";
 //import Auxiliary from "../../../hoc/Auxiliary";
 import withClass from "../../../hoc/WithClass";
+import AuthContext from "../../../context/auth-context";
 
 // const StyledDiv = styled.div`
 //   width: 60%;
@@ -20,6 +21,7 @@ import withClass from "../../../hoc/WithClass";
 
 const Person = props => {
   const inputElRef = useRef(null);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     inputElRef.current.focus();
@@ -29,7 +31,8 @@ const Person = props => {
     <Fragment>
       {/* <div className="Person" style={style}> */}
       {/* <StyledDiv> */}
-      {props.isAuth ? <p>Authenticated!</p> : <p>Log In</p>}
+
+      {authContext.authenticated ? <p>Authenticated!</p> : <p>Log In</p>}
       <p onClick={props.click}>
         I'm {props.name} and I'm a {props.age} years old.
       </p>
