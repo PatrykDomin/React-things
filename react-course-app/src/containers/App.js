@@ -66,14 +66,13 @@ const App = props => {
         persons={personsState.persons}
         clicked={deletePersonHandler}
         changed={nameChangedHandler}
-        isAuthenticated={authenticated}
       />
     );
   }
 
   return (
     // <StyleRoot>
-    //adding CSS Modules classes.App
+    //  adding CSS Modules classes.App
     // <WithClass classes={classes.App}>
     <Fragment>
       <button onClick={() => setShowCockpit(!showCockpit)}>
