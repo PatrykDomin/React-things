@@ -1,14 +1,7 @@
 $site-color: #a1a1a1;
 
-div {
+.mainDiv {
   background-color: $site-color;
-  display: flex;
   height: 100vh;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.header {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
