@@ -1,12 +1,14 @@
 import React, { Fragment, useState } from "react";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
   meat: 1.4,
-  bacon: 0.8
+  bacon: 0.8,
 };
 
 const BurgerBuilder = () => {
@@ -14,14 +16,15 @@ const BurgerBuilder = () => {
     salad: 0,
     bacon: 0,
     cheese: 0,
-    meat: 0
+    meat: 0,
   });
   const [price, setPrice] = useState(4);
   const [purchaseable, setPurchaseable] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
 
-  const purchasableHandler = ingredients => {
+  const purchasableHandler = (ingredients) => {
     const sum = Object.keys(ingredients)
-      .map(igKey => {
+      .map((igKey) => {
         return ingredients[igKey];
       })
       .reduce((sum, el) => {
@@ -30,9 +33,9 @@ const BurgerBuilder = () => {
     setPurchaseable(sum > 0);
   };
 
-  const addIngredientHandler = type => {
+  const addIngredientHandler = (type) => {
     const updatedIngredients = {
-      ...ingredients
+      ...ingredients,
     };
     if (ingredients[type] < 4) {
       updatedIngredients[type]++;
@@ -42,9 +45,9 @@ const BurgerBuilder = () => {
     }
     purchasableHandler(updatedIngredients);
   };
-  const deleteIngredientHandler = type => {
+  const deleteIngredientHandler = (type) => {
     const updatedIngredients = {
-      ...ingredients
+      ...ingredients,
     };
     if (ingredients[type] > 0) {
       updatedIngredients[type]--;
@@ -55,8 +58,16 @@ const BurgerBuilder = () => {
     purchasableHandler(updatedIngredients);
   };
 
+  const purchaseHandler = () => {
+    setPurchasing(!purchasing);
+  };
+
+  const purchaseContinueHandler = () => {
+    alert("continue");
+  };
+
   const disableInfo = {
-    ...ingredients
+    ...ingredients,
   };
   for (let key in disableInfo) {
     disableInfo[key] = disableInfo[key] <= 0;
@@ -64,6 +75,14 @@ const BurgerBuilder = () => {
 
   return (
     <Fragment>
+      <Modal show={purchasing} modalClosed={purchaseHandler}>
+        <OrderSummary
+          totalPrice={price}
+          purchaseCanceled={purchaseHandler}
+          purchaseContinued={purchaseContinueHandler}
+          ingredients={ingredients}
+        />
+      </Modal>
       <Burger ingredients={ingredients} />
       <BuildControls
         price={price}
@@ -71,6 +90,7 @@ const BurgerBuilder = () => {
         ingDeleted={deleteIngredientHandler}
         disabled={disableInfo}
         purchasable={purchaseable}
+        ordered={purchaseHandler}
       />
     </Fragment>
   );
