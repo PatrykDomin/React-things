@@ -4,7 +4,7 @@ import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Burger = props => {
+const Burger = (props) => {
   // const zmienna = Object.keys(props.ingredients).map(igKey => {
   //   return [...Array(props.ingredients[igKey])].map((_, id) => {
   //     return <BurgerIngredient key={igKey + id} type={igKey} />;
